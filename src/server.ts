@@ -16,7 +16,15 @@ app.get('/api/data', (req: Request, res: Response) => {
     res.json(etudiants);
 })
 
-
+app.get('/api/hello/:name', (req: Request, res: Response) => {
+    const timestamp = new Date();
+    const nom = req.params.name;
+    const reponse = {
+        "message": `Bonjour ${nom}`,
+        "timestamp": timestamp
+    };
+    res.json(reponse);
+});
 
 app.listen(port, () => {
     console.log(`Serveur lancé sur http://localhost:${3000}`)
