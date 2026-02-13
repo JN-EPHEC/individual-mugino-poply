@@ -1,12 +1,20 @@
-import express from 'express';
+import express, {Application, Request, Response} from 'express';
+import userRoutes from './routes/userRoutes';
 
-const app = express();
+const app: Application = express();
 const port = 3000;
 
+app.use(express.json()); // important
+
+app.use('/', userRoutes); // on monte à la racine
+
+
+// Route racine
 app.get('/', (req: Request, res: Response) => {
     res.send('Bienvenue sur mon serveur API');
 });
 
+// Route /api/data
 app.get('/api/data', (req: Request, res: Response) => {
     const etudiants = [
         { id: 1, nom: "Dupont", prenom: "Jean" },
@@ -14,8 +22,9 @@ app.get('/api/data', (req: Request, res: Response) => {
         { id: 1, nom: "Doe", prenom: "John" },        
     ];
     res.json(etudiants);
-})
+});
 
+// Route /api/hello/nom_dynamique
 app.get('/api/hello/:name', (req: Request, res: Response) => {
     const timestamp = new Date();
     const nom = req.params.name;
@@ -27,5 +36,5 @@ app.get('/api/hello/:name', (req: Request, res: Response) => {
 });
 
 app.listen(port, () => {
-    console.log(`Serveur lancé sur http://localhost:${3000}`)
+    console.log(`Serveur lancé sur http://localhost:${port}`)
 });
