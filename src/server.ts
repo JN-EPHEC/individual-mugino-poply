@@ -3,6 +3,12 @@ import userRoutes from './routes/userRoutes';
 import sequelize from './config/database';
 import { initDatabase } from './config/database';
 import User from './models/User';
+import path from 'path'
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const startServer = async () => {
     await initDatabase(); // On vérifie la connexion avec la DB
@@ -12,36 +18,11 @@ const startServer = async () => {
 
     const app: Application = express(); // Config express
 
+    app.use(express.static(path.join(__dirname, '../public')))  // middleware qui permet d'utiliser un dossier statique
 
-    app.use(express.json()); // important
+    app.use(express.json()); // important: middleware qui parse le json automatiquement
 
     app.use('/', userRoutes); // on monte à la racine
-
-    // Route racine
-    app.get('/', (req: Request, res: Response) => {
-        res.send('Bienvenue sur mon serveur API');
-    });
-
-    // Route /api/data
-    app.get('/api/data', (req: Request, res: Response) => {
-        const etudiants = [
-            { id: 1, nom: "Dupont", prenom: "Jean" },
-            { id: 2, nom: "Martin", prenom: "Sophie" },
-            { id: 1, nom: "Doe", prenom: "John" },        
-        ];
-        res.json(etudiants);
-    });
-
-    // Route /api/hello/nom_dynamique
-    app.get('/api/hello/:name', (req: Request, res: Response) => {
-        const timestamp = new Date();
-        const nom = req.params.name;
-        const reponse = {
-            "message": `Bonjour ${nom}`,
-            "timestamp": timestamp
-        };
-        res.json(reponse);
-    });
 
     const port = 3000; // Config port
 
