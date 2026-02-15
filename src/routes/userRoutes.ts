@@ -41,4 +41,28 @@ router.get('/api/users', async (req: Request, res: Response) => {
     }
 });
 
+// Route post /api/users
+router.post('/api/users', async (req, res) => {
+    try {
+        const user = await User.create(req.body);
+        res.status(201).json(user);
+    } catch (error) {
+        res.status(400).json({ error: "Erreur lors de l'ajout de l'utilisateur" });
+    }
+});
+
+// Route delete /api/users/:id
+router.delete('/api/users/:id', async (req: Request, res: Response) => {
+    try {
+        const user = await User.findByPk(req.params.id);
+        if (!user) {
+            return res.status(404).json({ error: 'Utilisateur non trouvé' });
+        }
+        await user.destroy();
+        res.json({ message: 'Utilisateur supprimé' });
+    } catch (error) {
+        res.status(500).json({ error: 'Erreur suppression' });
+    }
+});
+
 export default router
