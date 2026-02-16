@@ -20,13 +20,14 @@ async function chargerUsers() {
 
         for (const user of users) {
             const li = document.createElement('li');
-            li.className = 'list-item mb-3 p-4 has-background-light has-border-radius has-text-weight-medium';
+            li.className = 'list-item mb-3 p-4 has-background-light has-border-radius has-text-weight-medium is-flex is-justify-content-space-between is-align-items-center';
             li.dataset.id = user.id;
             const spanNom = document.createElement('span');
             spanNom.innerHTML = `<strong>${user.nom} ${user.prenom}</strong>`;
             
             const btnSupprimer = document.createElement('button');
-            btnSupprimer.className = 'delete is-large';
+            btnSupprimer.className = 'button is-danger is-light is-small';
+            btnSupprimer.innerHTML = 'X';
             btnSupprimer.title = 'Supprimer';
             btnSupprimer.addEventListener('click', function() {
                 supprimerUser(user.id);
