@@ -7,6 +7,8 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { requestLogger } from './middlewares/logger'
 import { errorHandler } from "./middlewares/errorHandler";
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "./config/swagger";
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -27,6 +29,8 @@ const startServer = async () => {
     app.use('/', userRoutes); // on monte à la racine
 
     app.use(requestLogger); // middleware logger
+
+    app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec)); // swagger
 
     app.use(errorHandler); // Gestion d'erreurs
 

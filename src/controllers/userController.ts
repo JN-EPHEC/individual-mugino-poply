@@ -15,6 +15,7 @@ export const hello = async (req: Request, res: Response) => {
     res.json(reponse);
 };
 
+
 export const getAllUsers = async (req: Request, res: Response) => {
     try {
         const users = await User.findAll({
