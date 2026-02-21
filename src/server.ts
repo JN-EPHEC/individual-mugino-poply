@@ -9,6 +9,7 @@ import { requestLogger } from './middlewares/logger'
 import { errorHandler } from "./middlewares/errorHandler";
 import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./config/swagger";
+import cors from 'cors';
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -21,6 +22,8 @@ const startServer = async () => {
     console.log('Tous les modèles synchronisés avec la base de données.');
 
     const app: Application = express(); // Config express
+
+    app.use(cors());
 
     app.use(express.static(path.join(__dirname, '../public')))  // middleware qui permet d'utiliser un dossier statique
 
