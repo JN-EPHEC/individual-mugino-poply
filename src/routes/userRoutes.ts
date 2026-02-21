@@ -1,68 +1,21 @@
-import express, {Router, Request, Response} from 'express';
-import User from '../models/User'
+import express, { Router } from 'express';
+import * as userController from '../controllers/userController'
 
 const router = Router();
 
 // Route racine
-router.get('/', (req: Request, res: Response) => {
-    res.send('Bienvenue sur mon serveur API');
-});
-
-// Route /api/data liée à la DB
-router.get('/api/data', async (req: Request, res: Response) => {
-    try {
-        const users = await User.findAll();  
-        res.json(users);
-    } catch (error) {
-        res.status(500).json({ error: 'Erreur lors de la récupération des utilisateurs' });
-    }
-});
+router.get('/', userController.welcome);
 
 // Route /api/hello/nom_dynamique
-router.get('/api/hello/:name', (req: Request, res: Response) => {
-    const timestamp = new Date();
-    const nom = req.params.name;
-    const reponse = {
-        "message": `Bonjour ${nom}`,
-        "timestamp": timestamp
-    };
-    res.json(reponse);
-});
+router.get('/api/hello/:name', userController.hello);
 
 // Route /api/users lié à la DB
-router.get('/api/users', async (req: Request, res: Response) => {
-    try {
-        const users = await User.findAll({
-            order: [['nom', 'ASC']]
-        });
-        res.json(users);
-    } catch (error) {
-        res.status(500).json({ error: 'Erreur lors de la récupération des users' });
-    }
-});
+router.get('/api/users', userController.getAllUsers);
 
 // Route post /api/users
-router.post('/api/users', async (req, res) => {
-    try {
-        const user = await User.create(req.body);
-        res.status(201).json(user);
-    } catch (error) {
-        res.status(400).json({ error: "Erreur lors de l'ajout de l'utilisateur" });
-    }
-});
+router.post('/api/users', userController.createUser);
 
 // Route delete /api/users/:id
-router.delete('/api/users/:id', async (req: Request, res: Response) => {
-    try {
-        const user = await User.findByPk(req.params.id);
-        if (!user) {
-            return res.status(404).json({ error: 'Utilisateur non trouvé' });
-        }
-        await user.destroy();
-        res.json({ message: 'Utilisateur supprimé' });
-    } catch (error) {
-        res.status(500).json({ error: 'Erreur suppression' });
-    }
-});
+router.delete('/api/users/:id', userController.deleteUser);
 
 export default router
