@@ -2,10 +2,10 @@ import express, {Application, Request, Response} from 'express';
 import userRoutes from './routes/userRoutes';
 import sequelize from './config/database';
 import { initDatabase } from './config/database';
-import User from './models/User';
 import path from 'path'
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import { requestLogger } from './middlewares/logger'
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -23,6 +23,8 @@ const startServer = async () => {
     app.use(express.json()); // important: middleware qui parse le json automatiquement
 
     app.use('/', userRoutes); // on monte à la racine
+
+    app.use(requestLogger); // middleware logger
 
     const port = 3000; // Config port
 
