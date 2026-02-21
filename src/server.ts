@@ -6,6 +6,8 @@ import path from 'path'
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { requestLogger } from './middlewares/logger'
+import { errorHandler } from "./middlewares/errorHandler";
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -25,6 +27,8 @@ const startServer = async () => {
     app.use('/', userRoutes); // on monte à la racine
 
     app.use(requestLogger); // middleware logger
+
+    app.use(errorHandler); // Gestion d'erreurs
 
     const port = 3000; // Config port
 
