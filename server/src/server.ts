@@ -29,9 +29,9 @@ const startServer = async () => {
 
     app.use(express.json()); // important: middleware qui parse le json automatiquement
 
-    app.use('/', userRoutes); // on monte à la racine
-
     app.use(requestLogger); // middleware logger
+
+    app.use('/', userRoutes); // on monte à la racine
 
     app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec)); // swagger
 

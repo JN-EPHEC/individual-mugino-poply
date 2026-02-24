@@ -79,7 +79,7 @@ async function ajouterUser() {
 }
 
 async function supprimerUser(id) {
-    if (!confirm(`Supprimer ${id} ?`)) return;
+    if (!confirm(`Supprimer l'étudiant ?`)) return;
     
     try {
         const response = await fetch(`/api/users/${id}`, {
