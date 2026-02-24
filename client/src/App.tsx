@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import 'bulma/css/bulma.min.css';
 // Définition d'une interface pour le typage
 // Sera couvert plus en profondeur en TH
 interface User {
@@ -20,14 +21,18 @@ function App() {
     }, []);
     // 3. Rendu (JSX)
     return (
-        <div>
-            <h1>Liste des utilisateurs</h1>
-            <ul>
-                {data.map((item) => (
+        <section className="section">
+            <div className="container">
+                <h1 className="title">Liste des utilisateurs</h1>
+                <div className="box">
+                    <ul className="list is-hoverable">
+                        {data.map((item) => (
                     <li key={item.id}>{item.nom} {item.prenom}</li>
                 ))}
-            </ul>
-        </div>
+                    </ul>
+                </div>
+            </div>
+        </section>
     );
 }
 
